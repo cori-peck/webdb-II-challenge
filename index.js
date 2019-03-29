@@ -70,6 +70,24 @@ server.put('/api/zoos/:id', async (req, res) => {
   }
 })
 
+// D
+server.delete('/api/zoos/:id', async (req, res) => {
+  try {
+    const recs = await db('zoos')
+    .where({ id: req.params.id })
+    .del()
+    if (recs === 0) {
+      res.status(404).json({ error: "That id does not exist" })
+    } else {
+      res.status(204).end();
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Could not complete delete request" })
+  }
+})
+
+
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
